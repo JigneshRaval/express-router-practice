@@ -11,28 +11,18 @@ var port = process.env.PORT || 8080;
 //===========================
 
 // we will create our router here
-
-// get an instance of router
-var router = express.Router();
-
-// Home page route (http://localhost:8080)
-router.get('/', function( req, res ){
-	res.send("Home page");
-});
-
-// "About" page route (http://localhost:8080/about)
-router.get('/about', function( req, res ){
-	res.send("About page");
-});
-
-// route with parameters ( http://localhost:8080/hello/:name )
-router.get('/hello/:name',function( req, res ){
-	res.send('Hello '+req.params.name);
-});
+var router = require('./router')(app); // this line will load "index.js" file from "router" folder
 
 // apply the router to our application
-app.use('/', router);
+// Error Handling
+app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+});
 
+// app.use() moved to "./router/index.js" file
+// app.use('/', router);
+
+module.exports = app;
 // START THE SERVER
 //===========================
 
